@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Bell, Lock, Palette, LogOut, CircleUser, Wallet } from 'lucide-react';
 import axios from 'axios';
+const API = import.meta.env.VITE_API_URL || 'https://fintracker-backend-v4fu.onrender.com';
 import { toast } from 'react-toastify';
 
 
@@ -47,7 +48,7 @@ const Setting = ({ isDarkMode, setIsDarkMode }) => {
         try {
             const token = localStorage.getItem('token');
             const res = await axios.patch(
-                'https://fintracker-backend-v4fu.onrender.com/users/edit',
+                `${API}/users/edit`,
                 formData,
                 {
                     headers: { 'x-auth-token': token }
@@ -72,7 +73,7 @@ const Setting = ({ isDarkMode, setIsDarkMode }) => {
         try {
             const token = localStorage.getItem('token');
             const res = await axios.post(
-                'https://fintracker-backend-v4fu.onrender.com/users/update-photo',
+                `${API}/users/update-photo`,
                 uploadFormData,
                 {
                     headers: { 'x-auth-token': token }
@@ -107,7 +108,7 @@ const Setting = ({ isDarkMode, setIsDarkMode }) => {
                 <div>
                     {user && user.photoUrl ? (
                         <img
-                            src={user.photoUrl ? `https://fintracker-backend-v4fu.onrender.com/${user.photoUrl}` : "https://i.imgur.com/gBqWAiQ.png"}
+                            src={user.photoUrl ? `${API}/${user.photoUrl}` : "https://i.imgur.com/gBqWAiQ.png"}
                             alt="Profile"
                             className="w-9 h-9 rounded-full mr-4 object-cover"
                         />

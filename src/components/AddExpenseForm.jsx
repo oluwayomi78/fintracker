@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Plus, Utensils, Car, Home, HeartPulse, BookOpen, ShoppingBag, ShoppingCart, Receipt, Cable, TrendingUp, CalendarDays } from 'lucide-react';
 import axios from 'axios'
+const API = import.meta.env.VITE_API_URL || 'https://fintracker-backend-v4fu.onrender.com';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -26,7 +27,7 @@ const AddExpenseForm = () => {
     const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
-        const URI = 'https://fintracker-backend-v4fu.onrender.com/expense/add';
+        const URI = `${API}/expense/add`;
         const token = localStorage.getItem("token");
         axios.post(URI, {
             amount: amount,

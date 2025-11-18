@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Bell } from "lucide-react";
 import axios from "axios";
+const API = import.meta.env.VITE_API_URL || 'https://fintracker-backend-v4fu.onrender.com';
 import { toast } from "react-toastify";
 
 const Notification = () => {
@@ -15,7 +16,7 @@ const Notification = () => {
         const fetchNotifications = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const res = await axios.get("https://fintracker-backend-v4fu.onrender.com/notifications", {
+                const res = await axios.get(`${API}/notifications`, {
                     headers: { "x-auth-token": token }
                 });
                 setNotifications(res.data.notifications || []);
@@ -33,7 +34,7 @@ const Notification = () => {
         try {
             const token = localStorage.getItem("token");
             await axios.patch(
-                "https://fintracker-backend-v4fu.onrender.com/notifications/markAllRead",
+                `${API}/notifications/markAllRead`,
                 {},
                 { headers: { "x-auth-token": token } }
             );

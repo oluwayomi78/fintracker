@@ -49,6 +49,8 @@ const Navbar = () => {
         };
     }, []);
 
+    const API = import.meta.env.VITE_API_URL || 'https://fintracker-backend-v4fu.onrender.com';
+
     return (
         <div>
             <nav className="w-full bg-white dark:bg-gray-800 p-4 flex overflow-hidden justify-between items-center border-b border-gray-200 dark:border-gray-700 rounded-lg sticky top-0 z-10">
@@ -73,7 +75,7 @@ const Navbar = () => {
                     <Link to='/setting'>
                         {user && user.photoUrl ? (
                             <img
-                                src={user.photoUrl ? `https://fintracker-backend-v4fu.onrender.com/${user.photoUrl}` : "https://i.imgur.com/gBqWAiQ.png"}
+                                src={user.photoUrl ? `${API}/${user.photoUrl}` : "https://i.imgur.com/gBqWAiQ.png"}
                                 alt="Profile"
                                 className="w-9 h-9 rounded-full mr-4 object-cover"
                             />

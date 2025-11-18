@@ -2,6 +2,7 @@ import {useState} from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const API = import.meta.env.VITE_API_URL || 'https://fintracker-backend-v4fu.onrender.com';
 import {toast} from 'react-toastify';
 
 function SignIn() {
@@ -14,7 +15,7 @@ function SignIn() {
     const handleSubmit = () => {
         if (loading) return;
         setLoading(true);
-        const URI = `https://fintracker-backend-v4fu.onrender.com/users/login`
+        const URI = `${API}/users/login`
         axios.post(URI, {
             email,
             password

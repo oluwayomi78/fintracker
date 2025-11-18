@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Bell, Lock, Palette, LogOut } from 'lucide-react';
 import axios from 'axios';
+const API = import.meta.env.VITE_API_URL || 'https://fintracker-backend-v4fu.onrender.com';
 import { toast } from 'react-toastify';
 
 const Set = ({ isDarkMode, setIsDarkMode }) => {
@@ -44,7 +45,7 @@ const Set = ({ isDarkMode, setIsDarkMode }) => {
                 try {
                     const token = localStorage.getItem('token');
                     const res = await axios.get(
-                        'https://fintracker-backend-v4fu.onrender.com/users/notifications',
+                        `${API}/users/notifications`,
                         { headers: { 'x-auth-token': token } }
                     );
                     
@@ -80,7 +81,7 @@ const Set = ({ isDarkMode, setIsDarkMode }) => {
         try {
             const token = localStorage.getItem('token');
             const res = await axios.patch(
-                'https://fintracker-backend-v4fu.onrender.com/users/edit',
+                `${API}/users/edit`,
                 formData,
                 { headers: { 'x-auth-token': token } }
             );
@@ -105,7 +106,7 @@ const Set = ({ isDarkMode, setIsDarkMode }) => {
         try {
             const token = localStorage.getItem('token');
             const res = await axios.post(
-                'https://fintracker-backend-v4fu.onrender.com/users/update-photo',
+                `${API}/users/update-photo`,
                 uploadFormData,
                 { headers: { 'x-auth-token': token } }
             );
@@ -137,7 +138,7 @@ const Set = ({ isDarkMode, setIsDarkMode }) => {
         try {
             const token = localStorage.getItem('token');
             const res = await axios.patch(
-                'https://fintracker-backend-v4fu.onrender.com/users/notifications', 
+                `${API}/users/notifications`, 
                 notificationPrefs, 
                 { headers: { 'x-auth-token': token } }
             );
@@ -182,7 +183,7 @@ const Set = ({ isDarkMode, setIsDarkMode }) => {
         try {
             const token = localStorage.getItem('token');
             const res = await axios.patch( 
-                'https://fintracker-backend-v4fu.onrender.com/users/change-password',
+                `${API}/users/change-password`,
                 {
                     currentPassword: passwordData.currentPassword,
                     newPassword: passwordData.newPassword,
@@ -274,7 +275,7 @@ const Set = ({ isDarkMode, setIsDarkMode }) => {
                                     <p className="text-gray-600 dark:text-gray-300 mb-6">Manage your personal details and profile picture.</p>
                                     <div className="flex items-center gap-6 mb-8">
                                         <img
-                                            src={user && user.photoUrl ? `https://fintracker-backend-v4fu.onrender.com/${user.photoUrl}` : "https://i.imgur.com/gBqWAiQ.png"}
+                                            src={user && user.photoUrl ? `${API}/${user.photoUrl}` : "https://i.imgur.com/gBqWAiQ.png"}
                                             alt="Profile"
                                             className="w-20 h-20 rounded-full object-cover"
                                         />

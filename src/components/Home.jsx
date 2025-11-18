@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { CircleUser, Wallet, LayoutDashboard, ArrowRightLeft, Settings, Plus, BarChart3, ReceiptText, ArrowUpRight, Eye, EyeOff, ArrowDownRight, Utensils, Car, HeartPulse, BookOpen, ShoppingBag, ShoppingCart, Receipt, HomeIcon, Banknote, Sun, Moon,  Cable } from 'lucide-react'
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+const API = import.meta.env.VITE_API_URL || 'https://fintracker-backend-v4fu.onrender.com';
 import { toast } from 'react-toastify';
 import DonutChartComponent from './DonutChartComponent';
 import LineChartComponent from './LineChartComponent';
@@ -38,7 +39,7 @@ const Home = () => {
         const token = localStorage.getItem("token");
         const fetchExpenses = async () => {
             try {
-                const res = await axios.get("https://fintracker-backend-v4fu.onrender.com/expense/get", {
+                const res = await axios.get(`${API}/expense/get`, {
                     headers: {
                         "x-auth-token": token
                     }
@@ -48,6 +49,10 @@ const Home = () => {
                 console.log(error);
             }
         };
+        if (!token) {
+            // No token: user not signed in; avoid calling the API
+            return;
+        }
         fetchExpenses();
     }, []);
 
@@ -263,7 +268,7 @@ const Home = () => {
                 </ul>
             </div>
 
-            <div className="w-[80] md:ml-64 pt-0 p-4 min-h-screen">
+            <div className="w-full md:ml-64 pt-0 p-4 min-h-screen">
                 {active === "Dashboard" && (
                     <div>
                         {user ? (
@@ -274,7 +279,10 @@ const Home = () => {
                                 </div>
                             </>
                         ) : (
-                            <p className="dark:text-white">Loading user data...</p>
+                            <div className="max-w-[80%] w-full mx-auto mt-6 md:mt-10 max-md:max-w-[98%]">
+                                <p className="dark:text-white">You are not signed in.</p>
+                                <Link to="/signin" className="inline-block mt-3 bg-blue-600 text-white px-4 py-2 rounded-md">Sign in</Link>
+                            </div>
                         )}
                         <div className="max-w-[80%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 md:mt-10 max-md:max-w-[98%]">
                             <div className="flex justify-between items-start mb-4">
