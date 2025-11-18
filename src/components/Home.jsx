@@ -50,7 +50,6 @@ const Home = () => {
             }
         };
         if (!token) {
-            // No token: user not signed in; avoid calling the API
             return;
         }
         fetchExpenses();
@@ -287,7 +286,6 @@ const Home = () => {
                         )}
                         <div className="max-w-6xl w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 md:mt-10 px-4 flex flex-col gap-4">
 
-                            {/* Removed 'mb-4' from this line below to reduce the gap */}
                             <div className="flex justify-between items-start">
                                 <div>
                                     <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -318,10 +316,7 @@ const Home = () => {
                             </div>
 
                             <span className='md:hidden text-gray-500 dark:text-gray-400'>Available to spend</span>
-
-                            {/* Changed 'my-4' to 'my-2' here (or remove it entirely for even less space) */}
                             <hr className="border-gray-200 dark:border-gray-700 my-2 hidden md:flex" />
-
                             <div className="hidden md:flex justify-between">
                                 <div>
                                     <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
