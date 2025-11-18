@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { CircleUser, Wallet, LayoutDashboard, ArrowRightLeft, Settings, Plus, BarChart3, ReceiptText, ArrowUpRight, Eye, EyeOff, ArrowDownRight, Utensils, Car, HeartPulse, BookOpen, ShoppingBag, ShoppingCart, Receipt, HomeIcon, Banknote, Sun, Moon,  Cable } from 'lucide-react'
+import { CircleUser, Wallet, LayoutDashboard, ArrowRightLeft, Settings, Plus, BarChart3, ReceiptText, ArrowUpRight, Eye, EyeOff, ArrowDownRight, Utensils, Car, HeartPulse, BookOpen, ShoppingBag, ShoppingCart, Receipt, HomeIcon, Banknote, Sun, Moon, Cable } from 'lucide-react'
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 const API = import.meta.env.VITE_API_URL || 'https://fintracker-backend-v4fu.onrender.com';
@@ -168,8 +168,9 @@ const Home = () => {
         ((currentMonthBalance - lastMonthBalance) / Math.abs(lastMonthBalance)) * 100;
 
     return (
-        <div className="bg-gray-100 dark:bg-gray-900" >
-            <nav className="w-full bg-white dark:bg-gray-800 p-4 flex  justify-between items-center border-b border-gray-200 dark:border-gray-700 rounded-lg sticky top-0 z-10">
+        <div className="bg-gray-100 dark:bg-gray-900 overflow-x-hidden min-h-screen" >
+            {/* <nav className="w-full bg-white dark:bg-gray-800 p-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-700 rounded-lg sticky top-0 z-30">  */}
+            <nav className="w-full bg-white dark:bg-gray-800 p-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-700 fixed top-0 left-0 z-40">
                 <div className="flex items-center space-x-2">
                     <div className="bg-blue-600 p-2 rounded-lg ml-4">
                         <Wallet className="w-6 h-6 text-white" />
@@ -202,7 +203,7 @@ const Home = () => {
                 </div>
             </nav>
 
-            <aside className="w-64 h-screen bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 fixed top-16 left-0 p-4 md:flex md:flex-col hidden">
+            <aside className="w-64 h-screen bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 fixed top-16 left-0 p-4 md:flex md:flex-col hidden z-20">
                 <ul className="space-y-5 ml-4">
                     <li onClick={() => setActive("Dashboard")} className={`cursor-pointer px-3 py-2 rounded-md transition-colors flex mt-4 ${active === "Dashboard" ? "bg-blue-600 text-white" : "text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700"}`}> <LayoutDashboard className='mr-4' />Dashboard</li>
                     <li onClick={() => setActive("Transactions")} className={`cursor-pointer px-3 py-2 rounded-md transition-colors flex mt-4 ${active === "Transactions" ? "bg-blue-600 text-white" : "text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700"}`}> <ArrowRightLeft className='mr-4' />Transactions</li>
@@ -268,24 +269,26 @@ const Home = () => {
                 </ul>
             </div>
 
-            <div className="w-full md:ml-64 pt-0 p-4 min-h-screen">
+            <div className="w-full md:ml-40 pt-10 p-4 min-h-screen transition-all duration-300">
                 {active === "Dashboard" && (
                     <div>
                         {user ? (
                             <>
-                                <div className="max-w-[80%] w-full mx-auto mt-6 md:mt-10 max-md:max-w-[98%]">
-                                    <h1 className="text-xl md:text-2xl font-bold dark:text-white">Welcome back, {user.name}!</h1>
+                                <div className="max-w-6xl w-full mx-auto mt-6 md:mt-10 px-4">
+                                    <h1 className="text-xl md:text-2xl mt-10 font-bold dark:text-white">Welcome back, {user.name}!</h1>
                                     <p className="text-gray-600 dark:text-gray-300">Here's your financial overview.</p>
                                 </div>
                             </>
                         ) : (
-                            <div className="max-w-[80%] w-full mx-auto mt-6 md:mt-10 max-md:max-w-[98%]">
+                            <div className="max-w-6xl w-full mx-auto mt-6 md:mt-10 px-4">
                                 <p className="dark:text-white">You are not signed in.</p>
                                 <Link to="/signin" className="inline-block mt-3 bg-blue-600 text-white px-4 py-2 rounded-md">Sign in</Link>
                             </div>
                         )}
-                        <div className="max-w-[80%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 md:mt-10 max-md:max-w-[98%]">
-                            <div className="flex justify-between items-start mb-4">
+                        <div className="max-w-6xl w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 md:mt-10 px-4 flex flex-col gap-4">
+
+                            {/* Removed 'mb-4' from this line below to reduce the gap */}
+                            <div className="flex justify-between items-start">
                                 <div>
                                     <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">
                                         Total Balance
@@ -313,8 +316,12 @@ const Home = () => {
                                     </span>
                                 </div>
                             </div>
+
                             <span className='md:hidden text-gray-500 dark:text-gray-400'>Available to spend</span>
-                            <hr className="border-gray-200 dark:border-gray-700 my-4 hidden md:flex" />
+
+                            {/* Changed 'my-4' to 'my-2' here (or remove it entirely for even less space) */}
+                            <hr className="border-gray-200 dark:border-gray-700 my-2 hidden md:flex" />
+
                             <div className="hidden md:flex justify-between">
                                 <div>
                                     <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -345,7 +352,7 @@ const Home = () => {
                         <div className="block md:hidden mt-3">
                             <h1 className='text-1xl font-sans font-bold ml-2 dark:text-white'>Recent Transactions</h1>
                             <div className="max-w-[98%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
-                                {expenses.slice(0, 5).map((item) => {
+                                {expenses.slice(-5).reverse().map((item) => {
                                     const isIncome = item.selectedCategory.toLowerCase() === "income";
                                     return (
                                         <div key={item._id} className="flex justify-between items-center mb-4 p-2 rounded hover:bg-gray-50 dark:hover:bg-gray-700 transition">
@@ -369,7 +376,7 @@ const Home = () => {
                                 })}
                             </div>
                         </div>
-                        <div className="max-w-[80%] w-full mx-auto rounded-lg p-6 md:mt-3 space-x-3 overflow-x-auto hidden md:flex">
+                        <div className="max-w-6xl w-full mx-auto rounded-lg p-6 md:mt-3 hidden md:flex flex-wrap gap-2 overflow-x-auto px-4">
                             {categories.map((category) => (
                                 <button
                                     key={category}
@@ -398,10 +405,120 @@ const Home = () => {
                                 ))}
                             </div>
                         </div>
-                        <div className="max-w-[80%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 hidden md:block">
+                        <div className="max-w-6xl w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 hidden md:flex px-4 flex-col">
                             <h1 className='text-2xl font-sans font-bold dark:text-white'>Recent Transactions</h1>
                             <div className='mt-4 relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default dark:border-gray-700'>
-                                <table className="w-full text-sm text-left rtl:text-right text-body">
+                                <div className="overflow-x-auto">
+                                    <table className="w-full min-w-[600px] text-sm text-left rtl:text-right text-body">
+                                        <thead className="text-sm text-body bg-gray-100 dark:bg-gray-700 dark:text-gray-300 border-b rounded-base border-default dark:border-gray-600">
+                                            <tr>
+                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
+                                                    Category
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
+                                                    Description
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
+                                                    Date
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
+                                                    Amount
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody className="dark:text-gray-200">
+                                            {expenses.slice(-5).reverse().map((item) => {
+                                                const isIncome = item.selectedCategory.toLowerCase() === "income";
+                                                const isFood = item.selectedCategory.toLowerCase() === "food";
+                                                const isTransport = item.selectedCategory.toLowerCase() === "transport";
+                                                const isHousing = item.selectedCategory.toLowerCase() === "housing";
+                                                const isHealth = item.selectedCategory.toLowerCase() === "health";
+                                                const isEducation = item.selectedCategory.toLowerCase() === "education";
+                                                const isShopping = item.selectedCategory.toLowerCase() === "shopping";
+                                                const isGroceries = item.selectedCategory.toLowerCase() === "groceries";
+                                                const isBills = item.selectedCategory.toLowerCase() === "bills";
+                                                const isElectronics = item.selectedCategory.toLowerCase() === "electronics";
+                                                return (
+                                                    <tr key={item._id} className="text-center border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                                        <td className="p-2 border-x dark:border-gray-700 px-6 py-4 whitespace-nowrap flex items-center justify-center gap-2">
+                                                            {isFood ? <Utensils className="w-4 h-4 " /> : null}
+                                                            {isTransport ? <Car className="w-4 h-4 " /> : null}
+                                                            {isHousing ? <HomeIcon className="w-4 h-4 " /> : null}
+                                                            {isHealth ? <HeartPulse className="w-4 h-4 " /> : null}
+                                                            {isEducation ? <BookOpen className="w-4 h-4 " /> : null}
+                                                            {isShopping ? <ShoppingBag className="w-4 h-4 " /> : null}
+                                                            {isGroceries ? <ShoppingCart className="w-4 h-4 " /> : null}
+                                                            {isBills ? <Receipt className="w-4 h-4 " /> : null}
+                                                            {isElectronics ? <Cable className="w-4 h-4 " /> : null}
+                                                            {isIncome ? <Banknote className="w-4 h-4 " /> : null}
+                                                            {item.selectedCategory}
+                                                        </td>
+                                                        <td className="p-2 border-x dark:border-gray-700 px-6 py-4 whitespace-nowrap">{item.notes}</td>
+                                                        <td className="p-2 border-x dark:border-gray-700 px-6 py-4 whitespace-nowrap">{formatDate(item.date)}</td>
+                                                        <td className={`p-2 border-x dark:border-gray-700 px-6 py-4 whitespace-nowrap flex items-center justify-center gap-1 font-semibold ${isIncome ? "text-green-600" : "text-red-600"}`}>
+                                                            {isIncome ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+                                                            ₦{item.amount.toLocaleString()}
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="w-full max-w-6xl mx-auto hidden md:flex md:flex-col gap-6 mt-6 px-4">
+                            <div className="h-96 w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 flex flex-col gap-4">
+                                <h1 className='text-2xl font-sans font-bold dark:text-white'>Category Spending</h1>
+                                <div className="mt-4 h-64 flex items-center justify-center text-gray-400">
+                                    <div className="h-64 md:h-80 w-full flex items-center justify-center">
+                                        <DonutChartComponent data={chartData} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="h-96 w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 flex flex-col gap-4">
+                                <h1 className='text-2xl font-sans font-bold dark:text-white'>Monthly Spending</h1>
+                                <div className="mt-5 h-64 flex items-center justify-center text-gray-400">
+                                    <div className="h-64 md:h-80 w-full flex items-center justify-center">
+                                        <LineChartComponent data={getMonthlySpending(expenses)} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="block md:hidden mt-3 w-full">
+                            <div className="w-full max-w-[98%] mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 flex flex-col gap-4">
+                                <h1 className='text-1xl font-sans font-bold dark:text-white'>Category Spending</h1>
+                                <div className="mt-4 h-64 flex items-center justify-center text-gray-400">
+                                    <div className="h-64 md:h-80 w-full flex items-center justify-center">
+                                        <DonutChartComponent data={chartData} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="block md:hidden mt-3 mb-10 w-full">
+                            <div className="w-full max-w-[98%] mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 flex flex-col gap-4">
+                                <h1 className='text-1xl font-sans font-bold dark:text-white'>Monthly Spending</h1>
+                                <div className="mt-4 h-64 flex items-center justify-center text-gray-400">
+                                    <div className="h-64 md:h-80 w-full flex items-center justify-center">
+                                        <LineChartComponent data={getMonthlySpending(expenses)} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+
+                {active === "Transactions" && (
+                    <div className="max-w-6xl w-full mx-auto pt-6 md:mt-10 px-4">
+                        <h1 className='text-2xl font-sans font-bold mb-4 hidden md:block dark:text-white'>All Transactions</h1>
+                        <div className='mt-4 relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default dark:border-gray-700 hidden md:block'>
+                            <div className="overflow-x-auto">
+                                <table className="w-full min-w-[600px] text-sm text-left text-gray-500 dark:text-gray-400">
                                     <thead className="text-sm text-body bg-gray-100 dark:bg-gray-700 dark:text-gray-300 border-b rounded-base border-default dark:border-gray-600">
                                         <tr>
                                             <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
@@ -418,9 +535,8 @@ const Home = () => {
                                             </th>
                                         </tr>
                                     </thead>
-
                                     <tbody className="dark:text-gray-200">
-                                        {expenses.slice(-5).reverse().map((item) => {
+                                        {expenses.map((item) => {
                                             const isIncome = item.selectedCategory.toLowerCase() === "income";
                                             const isFood = item.selectedCategory.toLowerCase() === "food";
                                             const isTransport = item.selectedCategory.toLowerCase() === "transport";
@@ -431,6 +547,7 @@ const Home = () => {
                                             const isGroceries = item.selectedCategory.toLowerCase() === "groceries";
                                             const isBills = item.selectedCategory.toLowerCase() === "bills";
                                             const isElectronics = item.selectedCategory.toLowerCase() === "electronics";
+
                                             return (
                                                 <tr key={item._id} className="text-center border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
                                                     <td className="p-2 border-x dark:border-gray-700 px-6 py-4 whitespace-nowrap flex items-center justify-center gap-2">
@@ -459,107 +576,9 @@ const Home = () => {
                                 </table>
                             </div>
                         </div>
-
-                        <div className="w-full max-w-[80%] max-md:max-w-[90%] mx-auto hidden md:flex md:flex-col gap-6 mt-6">
-                            <div className="h-96 w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                                <h1 className='text-2xl font-sans font-bold dark:text-white'>Category Spending</h1>
-                                <div className="mt-4 h-64 flex items-center justify-center text-gray-400">
-                                    <DonutChartComponent data={chartData} />
-                                </div>
-                            </div>
-                            <div className="h-96 w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                                <h1 className='text-2xl font-sans font-bold dark:text-white'>Monthly Spending</h1>
-                                <div className="mt-5 h-64 flex items-center justify-center text-gray-400">
-                                    <LineChartComponent data={getMonthlySpending(expenses)} />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="block md:hidden mt-3">
-                            <div className="w-full max-w-[98%] mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
-                                <h1 className='text-1xl font-sans font-bold dark:text-white'>Category Spending</h1>
-                                <div className="mt-4 h-64 flex items-center justify-center text-gray-400">
-                                    <DonutChartComponent data={chartData} />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="block md:hidden mt-3 mb-10">
-                            <div className="w-full max-w-[98%] mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
-                                <h1 className='text-1xl font-sans font-bold dark:text-white'>Monthly Spending</h1>
-                                <div className="mt-4 h-64 flex items-center justify-center text-gray-400">
-                                    <LineChartComponent data={getMonthlySpending(expenses)} />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-
-                {active === "Transactions" && (
-                    <div className="max-w-[80%] w-full mx-auto pt-6 md:mt-10 max-md:max-w-[98%]">
-                        <h1 className='text-2xl font-sans font-bold mb-4 hidden md:block dark:text-white'>All Transactions</h1>
-                        <div className='mt-4 relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default dark:border-gray-700 hidden md:block'>
-                            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead className="text-sm text-body bg-gray-100 dark:bg-gray-700 dark:text-gray-300 border-b rounded-base border-default dark:border-gray-600">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                            Category
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                            Description
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                            Date
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                            Amount
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="dark:text-gray-200">
-                                    {expenses.map((item) => {
-                                        const isIncome = item.selectedCategory.toLowerCase() === "income";
-                                        const isFood = item.selectedCategory.toLowerCase() === "food";
-                                        const isTransport = item.selectedCategory.toLowerCase() === "transport";
-                                        const isHousing = item.selectedCategory.toLowerCase() === "housing";
-                                        const isHealth = item.selectedCategory.toLowerCase() === "health";
-                                        const isEducation = item.selectedCategory.toLowerCase() === "education";
-                                        const isShopping = item.selectedCategory.toLowerCase() === "shopping";
-                                        const isGroceries = item.selectedCategory.toLowerCase() === "groceries";
-                                        const isBills = item.selectedCategory.toLowerCase() === "bills";
-                                        const isElectronics = item.selectedCategory.toLowerCase() === "electronics";
-
-                                        return (
-                                            <tr key={item._id} className="text-center border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
-                                                <td className="p-2 border-x dark:border-gray-700 px-6 py-4 whitespace-nowrap flex items-center justify-center gap-2">
-                                                    {isFood ? <Utensils className="w-4 h-4 " /> : null}
-                                                    {isTransport ? <Car className="w-4 h-4 " /> : null}
-                                                    {isHousing ? <HomeIcon className="w-4 h-4 " /> : null}
-                                                    {isHealth ? <HeartPulse className="w-4 h-4 " /> : null}
-                                                    {isEducation ? <BookOpen className="w-4 h-4 " /> : null}
-                                                    {isShopping ? <ShoppingBag className="w-4 h-4 " /> : null}
-                                                    {isGroceries ? <ShoppingCart className="w-4 h-4 " /> : null}
-                                                    {isBills ? <Receipt className="w-4 h-4 " /> : null}
-                                                    {isElectronics ? <Cable className="w-4 h-4 " /> : null}
-                                                    {isIncome ? <Banknote className="w-4 h-4 " /> : null}
-                                                    {item.selectedCategory}
-                                                </td>
-                                                <td className="p-2 border-x dark:border-gray-700 px-6 py-4 whitespace-nowrap">{item.notes}</td>
-                                                <td className="p-2 border-x dark:border-gray-700 px-6 py-4 whitespace-nowrap">{formatDate(item.date)}</td>
-                                                <td className={`p-2 border-x dark:border-gray-700 px-6 py-4 whitespace-nowrap flex items-center justify-center gap-1 font-semibold ${isIncome ? "text-green-600" : "text-red-600"}`}>
-                                                    {isIncome ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
-                                                    ₦{item.amount.toLocaleString()}
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="block md:hidden mt-3">
+                        <div className="block md:hidden mt-3 w-full">
                             <h1 className='text-1xl font-sans font-bold ml-2 dark:text-white'>All Transactions</h1>
-                            <div className="max-w-[98%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
+                            <div className="max-w-[98%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 flex flex-col gap-4">
                                 {expenses.map((item) => {
                                     const isIncome = item.selectedCategory.toLowerCase() === "income";
                                     return (
@@ -587,26 +606,30 @@ const Home = () => {
 
 
                 {active === "Analytics" && (
-                    <div className="max-w-[80%] w-full mx-auto pt-6 md:mt-10 max-md:max-w-[98%]">
+                    <div className="max-w-6xl w-full mx-auto pt-6 md:mt-10 px-4">
                         <h1 className='text-2xl font-sans font-bold mb-4 dark:text-white'>Spending Analytics</h1>
-                        <div className="max-w-[98%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
+                        <div className="max-w-[98%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 flex flex-col gap-4">
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-lg font-medium text-gray-900 dark:text-white">Total Spending</h2>
                                 <p className="text-sm text-gray-500 dark:text-gray-400">This Year</p>
                             </div>
                             <div className="mt-4 h-64 flex items-center justify-center text-gray-400">
-                                <LineChartComponent data={getMonthlySpending(expenses)} />
+                                <div className="h-64 md:h-80 w-full flex items-center justify-center">
+                                    <LineChartComponent data={getMonthlySpending(expenses)} />
+                                </div>
                             </div>
                         </div>
-                        <div className="max-w-[98%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
+                        <div className="max-w-[98%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 flex flex-col gap-4">
                             <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Spending by Category</h2>
-                            <DonutChartComponent data={chartData} />
+                            <div className="h-64 md:h-80 w-full flex items-center justify-center">
+                                <DonutChartComponent data={chartData} />
+                            </div>
                         </div>
                     </div>
                 )}
 
                 {active === "Settings" && (
-                    <div className="max-w-[80%] w-full mx-auto pt-6 md:mt-10 max-md:max-w-[98%]">
+                    <div className="max-w-6xl w-full mx-auto pt-6 md:mt-10 px-4">
                         <Set isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
                     </div>
                 )}

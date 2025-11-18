@@ -53,7 +53,7 @@ const Navbar = () => {
 
     return (
         <div>
-            <nav className="w-full bg-white dark:bg-gray-800 p-4 flex overflow-hidden justify-between items-center border-b border-gray-200 dark:border-gray-700 rounded-lg sticky top-0 z-10">
+            <nav className="w-full bg-white dark:bg-gray-800 p-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-700 rounded-lg sticky top-0 z-10 gap-4">
                 <div className="flex items-center space-x-2">
                     <div className="bg-blue-600 p-2 rounded-lg ml-4">
                         <Wallet className="w-6 h-6 text-white" />

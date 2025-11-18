@@ -121,10 +121,11 @@ const Setting = ({ isDarkMode, setIsDarkMode }) => {
             </nav>
             
             <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
-                <main className="flex-grow p-8">
-                    <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Settings</h1>
-                    <div className="flex flex-col md:flex-row gap-8">
-                        <aside className="w-full md:w-1/4">
+                <main className="flex-grow p-4 md:p-8">
+                    <div className="max-w-6xl w-full mx-auto px-4">
+                        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-8">Settings</h1>
+                        <div className="flex flex-col md:flex-row gap-8">
+                        <aside className="w-full md:w-1/4 mb-4 md:mb-0">
                             <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 space-y-1">
                                 <button
                                     onClick={() => setActiveTab('Profile')}
@@ -281,6 +282,7 @@ const Setting = ({ isDarkMode, setIsDarkMode }) => {
                             </div>
                         </main>
                     </div>
+                </div>
                 </main>
 
                 <footer className="w-full text-center py-6 text-gray-500 dark:text-gray-400 text-sm">
