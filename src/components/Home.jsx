@@ -3,7 +3,7 @@ import { CircleUser, Wallet, LayoutDashboard, ArrowRightLeft, Settings, Plus, Ba
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 const API = import.meta.env.VITE_API_URL || 'https://fintracker-backend-v4fu.onrender.com';
-import { toast } from 'react-toastify';
+
 import DonutChartComponent from './DonutChartComponent';
 import LineChartComponent from './LineChartComponent';
 import Set from './Set';
@@ -27,11 +27,9 @@ const Home = () => {
         if (isDarkMode) {
             root.classList.add('dark');
             localStorage.setItem('theme', 'dark');
-            toast.info('Dark mode enabled');
         } else {
             root.classList.remove('dark');
             localStorage.setItem('theme', 'light');
-            toast.info('Light mode enabled');
         }
     }, [isDarkMode]);
 
@@ -168,16 +166,16 @@ const Home = () => {
 
     return (
         <div className="bg-gray-100 dark:bg-gray-900 overflow-x-hidden min-h-screen" >
-            {/* <nav className="w-full bg-white dark:bg-gray-800 p-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-700 rounded-lg sticky top-0 z-30">  */}
             <nav className="w-full bg-white dark:bg-gray-800 p-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-700 fixed top-0 left-0 z-40">
                 <div className="flex items-center space-x-2">
-                    <div className="bg-blue-600 p-2 rounded-lg ml-4">
+                    <div className="bg-blue-600 p-2 rounded-lg ml-0 md:ml-4">
                         <Wallet className="w-6 h-6 text-white" />
                     </div>
-                    <span className="text-2xl font-bold text-blue-600">FinTracker</span>
+                    <span className="text-2xl font-bold text-blue-600 hidden sm:block">FinTracker</span>
+                    <span className="text-2xl font-bold text-blue-600 sm:hidden">FinTracker</span>
                 </div>
 
-                <div className="flex items-center gap-4 mr-4">
+                <div className="flex items-center gap-4 mr-0 md:mr-4">
                     <button
                         onClick={() => setIsDarkMode(!isDarkMode)}
                         className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -217,7 +215,7 @@ const Home = () => {
             </aside>
 
             <div className="w-full md:hidden fixed bottom-0 left-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 z-50">
-                <div className="absolute -top-12 left-[225px] ">
+                <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
                     <Link to={'/addExpense'}>
                         <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg">
                             <Plus className="w-5 h-5" /> Add Expense
@@ -225,50 +223,22 @@ const Home = () => {
                     </Link>
                 </div>
                 <ul className="flex justify-between items-center px-6 py-3">
-                    <li
-                        onClick={() => setActive("Dashboard")}
-                        className={`flex flex-col items-center text-xs cursor-pointer ${active === "Dashboard"
-                            ? "text-blue-600"
-                            : "text-gray-500 dark:text-gray-400 hover:text-blue-600"
-                            }`}
-                    >
-                        <LayoutDashboard className="w-6 h-6 mb-1" />
-                        Dashboard
+                    <li onClick={() => setActive("Dashboard")} className={`flex flex-col items-center text-xs cursor-pointer ${active === "Dashboard" ? "text-blue-600" : "text-gray-500 dark:text-gray-400 hover:text-blue-600"}`}>
+                        <LayoutDashboard className="w-6 h-6 mb-1" /> Dashboard
                     </li>
-                    <li
-                        onClick={() => setActive("Transactions")}
-                        className={`flex flex-col items-center text-xs cursor-pointer ${active === "Transactions"
-                            ? "text-blue-600"
-                            : "text-gray-500 dark:text-gray-400 hover:text-blue-600"
-                            }`}
-                    >
-                        <ReceiptText className="w-6 h-6 mb-1" />
-                        Transactions
+                    <li onClick={() => setActive("Transactions")} className={`flex flex-col items-center text-xs cursor-pointer ${active === "Transactions" ? "text-blue-600" : "text-gray-500 dark:text-gray-400 hover:text-blue-600"}`}>
+                        <ReceiptText className="w-6 h-6 mb-1" /> Transactions
                     </li>
-                    <li
-                        onClick={() => setActive("Analytics")}
-                        className={`flex flex-col items-center text-xs cursor-pointer ${active === "Analytics"
-                            ? "text-blue-600"
-                            : "text-gray-500 dark:text-gray-400 hover:text-blue-600"
-                            }`}
-                    >
-                        <BarChart3 className="w-6 h-6 mb-1" />
-                        Analytics
+                    <li onClick={() => setActive("Analytics")} className={`flex flex-col items-center text-xs cursor-pointer ${active === "Analytics" ? "text-blue-600" : "text-gray-500 dark:text-gray-400 hover:text-blue-600"}`}>
+                        <BarChart3 className="w-6 h-6 mb-1" /> Analytics
                     </li>
-                    <li
-                        onClick={() => setActive("Settings")}
-                        className={`flex flex-col items-center text-xs cursor-pointer ${active === "Settings"
-                            ? "text-blue-600"
-                            : "text-gray-500 dark:text-gray-400 hover:text-blue-600"
-                            }`}
-                    >
-                        <Settings className="w-6 h-6 mb-1" />
-                        Settings
+                    <li onClick={() => setActive("Settings")} className={`flex flex-col items-center text-xs cursor-pointer ${active === "Settings" ? "text-blue-600" : "text-gray-500 dark:text-gray-400 hover:text-blue-600"}`}>
+                        <Settings className="w-6 h-6 mb-1" /> Settings
                     </li>
                 </ul>
             </div>
 
-            <div className="w-full md:ml-40 pt-10 p-4 min-h-screen transition-all duration-300">
+            <div className="w-full md:ml-64 pt-10 p-4 min-h-screen transition-all duration-300 box-border md:w-[calc(100%-16rem)]">
                 {active === "Dashboard" && (
                     <div>
                         {user ? (
@@ -288,15 +258,10 @@ const Home = () => {
 
                             <div className="flex justify-between items-start">
                                 <div>
-                                    <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                        Total Balance
-                                    </h2>
+                                    <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Balance</h2>
                                     <p className="text-3xl md:text-4xl font-bold text-blue-600 flex items-center">
                                         {showBalance
-                                            ? `₦${Number(netBalance).toLocaleString('en-US', {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                            })}`
+                                            ? `₦${Number(netBalance).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
                                             : '*******'}
                                         <span className="ml-2 cursor-pointer text-gray-400 dark:text-gray-500">
                                             {showBalance ? (
@@ -317,33 +282,22 @@ const Home = () => {
 
                             <span className='md:hidden text-gray-500 dark:text-gray-400'>Available to spend</span>
                             <hr className="border-gray-200 dark:border-gray-700 my-2 hidden md:flex" />
-                            <div className="hidden md:flex justify-between">
+                            <div className="hidden md:flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
                                 <div>
-                                    <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                        Budget Remaining
-                                    </h3>
+                                    <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Budget Remaining</h3>
                                     <p className="text-xl font-semibold text-gray-900 dark:text-white">
-                                        ₦{BudgetRemaining.toLocaleString('en-US', {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })
-                                        }
+                                        ₦{BudgetRemaining.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                     </p>
                                 </div>
-                                <div className="text-right">
-                                    <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                        Expenses This Month
-                                    </h3>
+                                <div className="text-left sm:text-right">
+                                    <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Expenses This Month</h3>
                                     <p className="text-xl font-semibold text-gray-900 dark:text-white">
-                                        ₦{expensesThisMonth.reduce((sum, item) => sum + item.amount, 0).toLocaleString('en-US', {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })
-                                        }
+                                        ₦{expensesThisMonth.reduce((sum, item) => sum + item.amount, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                     </p>
                                 </div>
                             </div>
                         </div>
+
                         <div className="block md:hidden mt-3">
                             <h1 className='text-1xl font-sans font-bold ml-2 dark:text-white'>Recent Transactions</h1>
                             <div className="max-w-[98%] w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6">
@@ -356,9 +310,7 @@ const Home = () => {
                                                     {isIncome ? <ArrowUpRight className="w-4 h-4 text-green-600" /> : <ArrowDownRight className="w-4 h-4 text-red-600" />}
                                                     {item.selectedCategory}
                                                 </h2>
-                                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                                    {item.notes}
-                                                </p>
+                                                <p className="text-sm text-gray-500 dark:text-gray-400">{item.notes}</p>
                                             </div>
                                             <div className="text-right">
                                                 <p className={`text-md font-semibold ${isIncome ? "text-green-600" : "text-red-600"}`}>
@@ -371,18 +323,19 @@ const Home = () => {
                                 })}
                             </div>
                         </div>
-                        <div className="max-w-6xl w-full mx-auto rounded-lg p-6 md:mt-3 hidden md:flex flex-wrap gap-2 overflow-x-auto px-4">
+
+                        <div className="max-w-6xl w-full mx-auto rounded-lg p-6 md:mt-3 hidden md:flex flex-wrap gap-2 px-4">
                             {categories.map((category) => (
                                 <button
                                     key={category}
-                                    className={`px-4 py-2 rounded-full text-white transition-colors ${filteredExpenses === category ? "bg-blue-800 dark:bg-blue-500" : "bg-blue-600 hover:bg-blue-700"
-                                        }`}
+                                    className={`px-4 py-2 rounded-full text-white transition-colors ${filteredExpenses === category ? "bg-blue-800 dark:bg-blue-500" : "bg-blue-600 hover:bg-blue-700"}`}
                                     onClick={() => setFilteredExpenses(category)}
                                 >
                                     {category.charAt(0).toUpperCase() + category.slice(1)}
                                 </button>
                             ))}
                         </div>
+
                         <div className="block md:hidden mt-3">
                             <h1 className='text-1xl font-sans font-bold ml-2 mb-3 dark:text-white'>Spending Analytics</h1>
                         </div>
@@ -391,8 +344,7 @@ const Home = () => {
                                 {categories.map((category) => (
                                     <button
                                         key={category}
-                                        className={`px-4 py-2 rounded-full text-white transition-colors ${filteredExpenses === category ? "bg-blue-800 dark:bg-blue-500" : "bg-blue-600 hover:bg-blue-700"
-                                            }`}
+                                        className={`px-4 py-2 rounded-full text-white transition-colors ${filteredExpenses === category ? "bg-blue-800 dark:bg-blue-500" : "bg-blue-600 hover:bg-blue-700"}`}
                                         onClick={() => setFilteredExpenses(category)}
                                     >
                                         {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -400,6 +352,7 @@ const Home = () => {
                                 ))}
                             </div>
                         </div>
+
                         <div className="max-w-6xl w-full mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mt-6 hidden md:flex px-4 flex-col">
                             <h1 className='text-2xl font-sans font-bold dark:text-white'>Recent Transactions</h1>
                             <div className='mt-4 relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default dark:border-gray-700'>
@@ -407,21 +360,12 @@ const Home = () => {
                                     <table className="w-full min-w-[600px] text-sm text-left rtl:text-right text-body">
                                         <thead className="text-sm text-body bg-gray-100 dark:bg-gray-700 dark:text-gray-300 border-b rounded-base border-default dark:border-gray-600">
                                             <tr>
-                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                                    Category
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                                    Description
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                                    Date
-                                                </th>
-                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                                    Amount
-                                                </th>
+                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Category</th>
+                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Description</th>
+                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Date</th>
+                                                <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Amount</th>
                                             </tr>
                                         </thead>
-
                                         <tbody className="dark:text-gray-200">
                                             {expenses.slice(-5).reverse().map((item) => {
                                                 const isIncome = item.selectedCategory.toLowerCase() === "income";
@@ -464,19 +408,19 @@ const Home = () => {
                             </div>
                         </div>
 
-                        <div className="w-full max-w-6xl mx-auto hidden md:flex md:flex-col gap-6 mt-6 px-4">
+                        <div className="w-full max-w-6xl mx-auto hidden md:grid md:grid-cols-1 lg:grid-cols-2 gap-6 mt-6 px-4">
                             <div className="h-96 w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 flex flex-col gap-4">
                                 <h1 className='text-2xl font-sans font-bold dark:text-white'>Category Spending</h1>
-                                <div className="mt-4 h-64 flex items-center justify-center text-gray-400">
-                                    <div className="h-64 md:h-80 w-full flex items-center justify-center">
+                                <div className="mt-4 h-full flex items-center justify-center text-gray-400">
+                                    <div className="h-64 md:h-72 w-full flex items-center justify-center">
                                         <DonutChartComponent data={chartData} />
                                     </div>
                                 </div>
                             </div>
                             <div className="h-96 w-full bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 flex flex-col gap-4">
                                 <h1 className='text-2xl font-sans font-bold dark:text-white'>Monthly Spending</h1>
-                                <div className="mt-5 h-64 flex items-center justify-center text-gray-400">
-                                    <div className="h-64 md:h-80 w-full flex items-center justify-center">
+                                <div className="mt-5 h-full flex items-center justify-center text-gray-400">
+                                    <div className="h-64 md:h-72 w-full flex items-center justify-center">
                                         <LineChartComponent data={getMonthlySpending(expenses)} />
                                     </div>
                                 </div>
@@ -507,7 +451,6 @@ const Home = () => {
                     </div>
                 )}
 
-
                 {active === "Transactions" && (
                     <div className="max-w-6xl w-full mx-auto pt-6 md:mt-10 px-4">
                         <h1 className='text-2xl font-sans font-bold mb-4 hidden md:block dark:text-white'>All Transactions</h1>
@@ -516,18 +459,10 @@ const Home = () => {
                                 <table className="w-full min-w-[600px] text-sm text-left text-gray-500 dark:text-gray-400">
                                     <thead className="text-sm text-body bg-gray-100 dark:bg-gray-700 dark:text-gray-300 border-b rounded-base border-default dark:border-gray-600">
                                         <tr>
-                                            <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                                Category
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                                Description
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                                Date
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">
-                                                Amount
-                                            </th>
+                                            <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Category</th>
+                                            <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Description</th>
+                                            <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Date</th>
+                                            <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody className="dark:text-gray-200">
@@ -599,7 +534,6 @@ const Home = () => {
                     </div>
                 )}
 
-
                 {active === "Analytics" && (
                     <div className="max-w-6xl w-full mx-auto pt-6 md:mt-10 px-4">
                         <h1 className='text-2xl font-sans font-bold mb-4 dark:text-white'>Spending Analytics</h1>
@@ -630,7 +564,7 @@ const Home = () => {
                 )}
             </div>
 
-            <footer className="w-full text-center py-4 text-gray-500 dark:text-gray-400 text-sm border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+            <footer className="w-full text-center py-4 text-gray-500 dark:text-gray-400 text-sm border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 md:pl-64">
                 © 2025 <span className="font-semibold text-blue-600">FinTrack</span>. All rights reserved.
             </footer>
         </div>
