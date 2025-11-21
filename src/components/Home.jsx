@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { CircleUser, Wallet, LayoutDashboard, ArrowRightLeft, Settings, Plus, BarChart3, ReceiptText, ArrowUpRight, Eye, EyeOff, ArrowDownRight, Utensils, Car, HeartPulse, BookOpen, ShoppingBag, ShoppingCart, Receipt, HomeIcon, Banknote, Sun, Moon, Cable } from 'lucide-react'
+import { CircleUser, Wallet, LayoutDashboard, ArrowRightLeft, Settings, Plus, BarChart3, ReceiptText, ArrowUpRight, Eye, EyeOff, ArrowDownRight, Utensils, Car, HeartPulse, BookOpen, ShoppingBag, ShoppingCart, Receipt, HomeIcon, Banknote, Sun, Moon, Cable, Pencil, Trash2 } from 'lucide-react'
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 const API = import.meta.env.VITE_API_URL || 'https://fintracker-backend-v4fu.onrender.com';
-
+import EditExpenseModal from "./EditExpenseModal";
 import DonutChartComponent from './DonutChartComponent';
 import LineChartComponent from './LineChartComponent';
 import Set from './Set';
@@ -12,6 +12,8 @@ import Notification from './Notification';
 const Home = () => {
     const [active, setActive] = useState("Dashboard");
     const [expenses, setExpenses] = useState([]);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [currentEditItem, setCurrentEditItem] = useState(null);
     const [showBalance, setShowBalance] = useState(false);
     const [filteredExpenses, setFilteredExpenses] = useState("all");
     const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -60,6 +62,36 @@ const Home = () => {
             year: "numeric"
         });
     };
+
+    const handleEdit = (item) => {
+        setCurrentEditItem(item);
+        setIsEditModalOpen(true);
+    };
+    const handleSaveEdit = (id, updatedData) => {
+        setExpenses((prev) =>
+            prev.map((item) => (item._id === id ? { ...item, ...updatedData } : item))
+        );
+        console.log("Updated Item:", id, updatedData);
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this transaction?")) return;
+
+        try {
+            const token = localStorage.getItem("token");
+            await axios.delete(`${API}/expense/${id}`, {
+                headers: {
+                    "x-auth-token": token
+                }
+            });
+            setExpenses((prev) => prev.filter((item) => item._id !== id));
+            alert("Transaction deleted successfully!");
+        } catch (error) {
+            console.error("Failed to delete expense:", error);
+            alert("Failed to delete transaction. Please try again.");
+        }
+    };
+
 
     const chartData = Object.values(
         expenses
@@ -463,6 +495,7 @@ const Home = () => {
                                             <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Description</th>
                                             <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Date</th>
                                             <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Amount</th>
+                                            <th scope="col" className="px-6 py-3 font-medium whitespace-nowrap text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody className="dark:text-gray-200">
@@ -499,12 +532,36 @@ const Home = () => {
                                                         {isIncome ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                                                         ₦{item.amount.toLocaleString()}
                                                     </td>
+                                                    <td className="p-2 border-x dark:border-gray-700 px-6 py-4 whitespace-nowrap">
+                                                        <div className="flex items-center justify-center gap-3">
+                                                            <button
+                                                                onClick={() => handleEdit(item)}
+                                                                className="text-gray-500 hover:text-blue-600 transition-colors p-1 rounded-full hover:bg-blue-50 dark:hover:bg-gray-800"
+                                                                title="Edit"
+                                                            >
+                                                                <Pencil className="w-4 h-4" />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDelete(item._id)}
+                                                                className="text-gray-500 hover:text-red-600 transition-colors p-1 rounded-full hover:bg-red-50 dark:hover:bg-gray-800"
+                                                                title="Delete"
+                                                            >
+                                                                <Trash2 className="w-4 h-4" />
+                                                            </button>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             );
                                         })}
                                     </tbody>
                                 </table>
                             </div>
+                            <EditExpenseModal
+                                isOpen={isEditModalOpen}
+                                onClose={() => setIsEditModalOpen(false)}
+                                itemToEdit={currentEditItem}
+                                onSave={handleSaveEdit}
+                            />
                         </div>
                         <div className="block md:hidden mt-3 w-full">
                             <h1 className='text-1xl font-sans font-bold ml-2 dark:text-white'>All Transactions</h1>
